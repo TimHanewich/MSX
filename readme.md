@@ -58,3 +58,8 @@ msx users "Jane Smith"
 # Run a raw OData query
 msx query "contacts?\$top=5&\$select=fullname,emailaddress1"
 ```
+
+## Building
+```
+dotnet publish MSX.csproj -c Release --self-contained true
+```
