@@ -60,7 +60,8 @@ namespace MSX
 
         private static void PrintUsage()
         {
-            Console.WriteLine("MSX - Microsoft CRM CLI Tool");
+            string version = typeof(Program).Assembly.GetName().Version?.ToString(3) ?? "unknown";
+            Console.WriteLine($"MSX v{version} - Microsoft CRM CLI Tool");
             Console.WriteLine();
             Console.WriteLine("Usage: msx <command> [arguments]");
             Console.WriteLine();
