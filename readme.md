@@ -1,27 +1,8 @@
 # MSX
-
-A command-line tool for interfacing with [MSX](https://microsoftsales.crm.dynamics.com) (Microsoft's internal CRM system, powered by Dynamics 365). Run a single command, get a result — no interactive menus.
-
-## Installation
-
-Requires the [.NET 10 SDK](https://dotnet.microsoft.com/download) or later.
-
-```bash
-cd src
-dotnet pack -o nupkg
-dotnet tool install --global --add-source nupkg MSX
-```
-
-The `msx` command is now available system-wide.
+A command-line tool for interfacing with [MSX](https://microsoftsales.crm.dynamics.com), Microsoft's internal CRM system, powered by Dynamics 365. Run a single command, get a result — no interactive menus.
 
 ## Authentication
-
 MSX authenticates with a browser cookie. Grab it once and save it:
-
-1. Sign into [MSX](https://microsoftsales.crm.dynamics.com) in your browser.
-2. Open DevTools (**F12**) → **Network** tab → reload the page.
-3. Click any request to `microsoftsales.crm.dynamics.com` and copy the full `cookie` header value.
-4. Save it:
 
 ```bash
 msx auth set "<cookie_value>"
@@ -77,7 +58,3 @@ msx users "Jane Smith"
 # Run a raw OData query
 msx query "contacts?\$top=5&\$select=fullname,emailaddress1"
 ```
-
-## Agent Skill
-
-This project includes a [SKILL.md](SKILL.md) following the [Agent Skills specification](https://agentskills.io/specification), allowing AI agents to discover and use the MSX CLI automatically.
