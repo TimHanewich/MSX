@@ -8,6 +8,11 @@
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>msx</ToolCommandName>
     <AssemblyName>MSX</AssemblyName>
+
+    <!--Publish as self contained-->
+    <PublishSelfContained>true</PublishSelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
 
   <ItemGroup>
