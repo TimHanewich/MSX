@@ -9,6 +9,9 @@
     <ToolCommandName>msx</ToolCommandName>
     <AssemblyName>MSX</AssemblyName>
 
+    <!--Version info-->
+    <Version>0.1.0</Version>
+
     <!--Publish as self contained-->
     <PublishSelfContained>true</PublishSelfContained>
     <PublishSingleFile>true</PublishSingleFile>
