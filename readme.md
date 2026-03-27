@@ -1,6 +1,12 @@
 # MSX
 A command-line tool for interfacing with [MSX](https://microsoftsales.crm.dynamics.com), Microsoft's internal CRM system, powered by Dynamics 365. Run a single command, get a result — no interactive menus.
 
+## Installing
+Download `msx.exe` to begin using this tool below:
+|Version|Note|
+|-|-|
+|[0.1.0](https://github.com/TimHanewich/MSX/releases/download/0.1.0/MSX.exe)|First release|
+
 ## Authentication
 MSX authenticates with a browser cookie. Grab it once and save it:
 
