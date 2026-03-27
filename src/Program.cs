@@ -68,6 +68,7 @@ namespace MSX
             Console.WriteLine("  auth set <cookie>                       Save your MSX authentication cookie");
             Console.WriteLine("  auth clear                              Remove saved cookie");
             Console.WriteLine("  auth show                               Display the saved cookie");
+            Console.WriteLine("  auth path                               Show cookie file path");
             Console.WriteLine("  whoami                                  Get your system user ID");
             Console.WriteLine("  users <name>                            Search users by name");
             Console.WriteLine("  accounts <search>                       Search accounts by name");
@@ -119,6 +120,10 @@ namespace MSX
                         return 1;
                     }
                     Console.WriteLine(File.ReadAllText(CookiePath));
+                    return 0;
+
+                case "path":
+                    Console.WriteLine(CookiePath);
                     return 0;
 
                 default:
