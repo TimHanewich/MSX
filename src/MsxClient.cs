@@ -231,6 +231,17 @@ namespace MSX
                     ["name"] = opp[$"{alias}.name"]
                 };
 
+                string? forecastJson = opp["msp_forecastcommentsjsonfield"]?.ToString();
+                if (!string.IsNullOrEmpty(forecastJson))
+                {
+                    try { summary["forecastComments"] = JArray.Parse(forecastJson); }
+                    catch { summary["forecastComments"] = new JArray(); }
+                }
+                else
+                {
+                    summary["forecastComments"] = new JArray();
+                }
+
                 result.Add(summary);
             }
 
