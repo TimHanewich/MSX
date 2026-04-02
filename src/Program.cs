@@ -245,10 +245,10 @@ namespace MSX
                 return 0;
             }
 
-            // msx tasks create <title> <description> <date> [--account <id>] [--opportunity <id>]
-            if (args.Length < 5)
+            // msx tasks create <title> <description> <date> --category <category> [--account <id>] [--opportunity <id>]
+            if (args.Length < 7)
             {
-                Console.Error.WriteLine("Usage: msx tasks create <title> <description> <date> [--account <id>] [--opportunity <id>]");
+                Console.Error.WriteLine("Usage: msx tasks create <title> <description> <date> --category <category> [--account <id>] [--opportunity <id>]");
                 return 1;
             }
 
@@ -261,19 +261,35 @@ namespace MSX
                 return 1;
             }
 
-            // Parse optional flags
+            // Parse flags
             string? accountId = null;
             string? opportunityId = null;
+            TaskCategory? category = null;
             for (int i = 5; i < args.Length - 1; i++)
             {
                 if (args[i] == "--account")
                     accountId = args[++i];
                 else if (args[i] == "--opportunity")
                     opportunityId = args[++i];
+                else if (args[i] == "--category")
+                {
+                    if (!Enum.TryParse<TaskCategory>(args[++i], ignoreCase: true, out var parsed))
+                    {
+                        Console.Error.WriteLine($"Invalid category: {args[i]}. Valid values: {string.Join(", ", Enum.GetNames<TaskCategory>())}");
+                        return 1;
+                    }
+                    category = parsed;
+                }
+            }
+
+            if (category == null)
+            {
+                Console.Error.WriteLine($"--category is required. Valid values: {string.Join(", ", Enum.GetNames<TaskCategory>())}");
+                return 1;
             }
 
             var c = GetClient();
-            await c.CreateTaskAsync(title, description, date, accountId, opportunityId);
+            await c.CreateTaskAsync(title, description, date, category.Value, accountId, opportunityId);
             Console.WriteLine("Task created.");
             return 0;
         }

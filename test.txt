@@ -1,0 +1,20 @@
+606820000  ACE
+606820001  Cross Segment
+606820002  Cross Workload
+606820003  Post Sales
+606820004  Tech Support
+606820005  Technical Close/Win Plan
+861980000  Customer Engagement
+861980001  Workshop
+861980002  Demo
+861980003  Negotiate Pricing
+861980004  Architecture Design Session
+861980005  PoC/Pilot
+861980006  Blocker Escalation
+861980007  Consumption Plan
+861980008  Briefing
+861980009  RFP/RFI
+861980010  Call Back Requested
+861980011  New Partner Request
+861980012  Internal
+861980013  External (Co-creation of Value)
