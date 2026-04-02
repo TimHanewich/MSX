@@ -28,11 +28,45 @@ The cookie is stored at `%LocalAppData%\MSX\cookie.txt` (Windows) or `~/.local/s
 | `msx users <name>` | Search users by name |
 | `msx accounts <search>` | Search accounts by name |
 | `msx opps search <account_id> <search>` | Search open opportunities for an account |
-| `msx opps mine` | Get your associated opportunities |
-| `msx opps user <user_id>` | Get opportunities for a specific user |
+| `msx opps mine` | Get your associated opportunities (includes forecast comments) |
+| `msx opps user <user_id>` | Get opportunities for a specific user (includes forecast comments) |
 | `msx tasks` | List your recent tasks |
-| `msx tasks create <title> <desc> <date> [opts]` | Create a task |
+| `msx tasks create <title> <desc> <date> [opts]` | Create a task (see options below) |
 | `msx query <odata_query>` | Run a raw OData query |
+
+## Task Creation Options
+
+`msx tasks create <title> <description> <date> [--category <category>] [--account <id>] [--opportunity <id>]`
+
+| Option | Description |
+|---|---|
+| `--category <category>` | Task category (see values below) |
+| `--account <id>` | Link the task to an account |
+| `--opportunity <id>` | Link the task to an opportunity |
+
+### Task Categories
+| Value | Name |
+|---|---|
+| 606820000 | ACE |
+| 606820001 | CrossSegment |
+| 606820002 | CrossWorkload |
+| 606820003 | PostSales |
+| 606820004 | TechSupport |
+| 606820005 | TechnicalCloseWinPlan |
+| 861980000 | CustomerEngagement |
+| 861980001 | Workshop |
+| 861980002 | Demo |
+| 861980003 | NegotiatePricing |
+| 861980004 | ArchitectureDesignSession |
+| 861980005 | PoCPilot |
+| 861980006 | BlockerEscalation |
+| 861980007 | ConsumptionPlan |
+| 861980008 | Briefing |
+| 861980009 | RFPRFI |
+| 861980010 | CallBackRequested |
+| 861980011 | NewPartnerRequest |
+| 861980012 | Internal |
+| 861980013 | ExternalCoCreationOfValue |
 
 ## Usage Examples
 
@@ -53,10 +87,13 @@ msx opps mine
 msx tasks
 
 # Create a task tied to an account
-msx tasks create "Follow up call" "Discuss renewal timeline" 2026-04-01 --account "b1c2d3e4-..."
+msx tasks create "Follow up call" "Discuss renewal timeline" 2026-04-01 --category CustomerEngagement --account "b1c2d3e4-..."
 
 # Create a task tied to an opportunity
-msx tasks create "Send proposal" "Draft and send SOW" 2026-04-05 --opportunity "a9b8c7d6-..."
+msx tasks create "Send proposal" "Draft and send SOW" 2026-04-05 --category Demo --opportunity "a9b8c7d6-..."
+
+# Create a task without a category
+msx tasks create "Quick note" "Internal reminder" 2026-04-10
 
 # Look up a colleague
 msx users "Jane Smith"
