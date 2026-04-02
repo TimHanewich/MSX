@@ -6,6 +6,7 @@ Download `msx.exe` to begin using this tool below:
 |Version|Note|
 |-|-|
 |[0.1.0](https://github.com/TimHanewich/MSX/releases/download/0.1.0/MSX.exe)|First release|
+|[0.2.0](https://github.com/TimHanewich/MSX/releases/download/0.2.0/MSX.exe)|Can specify a *Task Category* when creating new tasks and capturing *forecast comments* when pulling down opportunities.|
 
 ## Authentication
 MSX authenticates with a browser cookie. Grab it once and save it:
