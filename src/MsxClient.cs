@@ -129,13 +129,15 @@ namespace MSX
             return result;
         }
 
-        public async Task CreateTaskAsync(string title, string description, DateTime timestamp, TaskCategory category, string? accountId = null, string? opportunityId = null)
+        public async Task CreateTaskAsync(string title, string description, DateTime timestamp, TaskCategory? category = null, string? accountId = null, string? opportunityId = null)
         {
             JObject body = new JObject();
             body.Add("subject", title);
             body.Add("description", description);
             body.Add("scheduledstart", timestamp.ToString("yyyy-MM-ddTHH:mm:ssZ"));
-            body.Add("msp_taskcategory", (int)category);
+
+            if (category != null)
+                body.Add("msp_taskcategory", (int)category.Value);
 
             if (accountId != null)
                 body.Add("regardingobjectid_account@odata.bind", $"/accounts({accountId})");

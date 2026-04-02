@@ -245,10 +245,10 @@ namespace MSX
                 return 0;
             }
 
-            // msx tasks create <title> <description> <date> --category <category> [--account <id>] [--opportunity <id>]
-            if (args.Length < 7)
+            // msx tasks create <title> <description> <date> [--category <category>] [--account <id>] [--opportunity <id>]
+            if (args.Length < 5)
             {
-                Console.Error.WriteLine("Usage: msx tasks create <title> <description> <date> --category <category> [--account <id>] [--opportunity <id>]");
+                Console.Error.WriteLine("Usage: msx tasks create <title> <description> <date> [--category <category>] [--account <id>] [--opportunity <id>]");
                 return 1;
             }
 
@@ -282,14 +282,8 @@ namespace MSX
                 }
             }
 
-            if (category == null)
-            {
-                Console.Error.WriteLine($"--category is required. Valid values: {string.Join(", ", Enum.GetNames<TaskCategory>())}");
-                return 1;
-            }
-
             var c = GetClient();
-            await c.CreateTaskAsync(title, description, date, category.Value, accountId, opportunityId);
+            await c.CreateTaskAsync(title, description, date, category, accountId, opportunityId);
             Console.WriteLine("Task created.");
             return 0;
         }
