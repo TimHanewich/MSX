@@ -156,11 +156,17 @@ namespace MSX
         {
             string filter = $"_ownerid_value eq '{userId}'";
             if (after == null && before == null)
-                filter += $" and scheduledstart ge {DateTime.UtcNow.AddDays(-30):yyyy-MM-dd}"; //if they dont specify any time, just get last 30 days
-            if (after != null)
-                filter += $" and scheduledstart ge {after.Value:yyyy-MM-dd}";
-            if (before != null)
-                filter += $" and scheduledstart le {before.Value:yyyy-MM-dd}";
+            {
+                filter += $" and scheduledstart ge {DateTime.UtcNow.AddDays(-30):yyyy-MM-dd}";
+            }
+            else
+            {
+                if (after == null || before == null) //if they specified one but not the other
+                    throw new Exception("Both --after and --before must be specified together.");
+                if ((before.Value - after.Value).TotalDays > 365) //if they asked for more than a full year (a ton of data possibly)
+                    throw new Exception("You can only request up to 12 months of task data.");
+                filter += $" and scheduledstart ge {after.Value:yyyy-MM-dd} and scheduledstart le {before.Value:yyyy-MM-dd}";
+            }
 
             string url = URL_ROOT + $"tasks?$filter={filter}&$orderby=scheduledstart desc&$expand=regardingobjectid_account($select=name,accountid),regardingobjectid_opportunity($select=name,opportunityid,estimatedvalue)";
 
