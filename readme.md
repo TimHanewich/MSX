@@ -211,7 +211,8 @@ msx query "contacts?\$top=5&\$select=fullname,emailaddress1"
     "regarding": {
       "type": "opportunity",
       "name": "AURELION | SOLARAGRID | AI | Intelligent Support & Protocol Navigator",
-      "id": "b2d4e8f1-6a11-4c0d-9f77-2c1e5b9d7a44"
+      "id": "b2d4e8f1-6a11-4c0d-9f77-2c1e5b9d7a44",
+      "value": 34296
     }
   }
 ]
