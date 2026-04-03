@@ -31,7 +31,10 @@ The cookie is stored at `%LocalAppData%\MSX\cookie.txt` (Windows) or `~/.local/s
 | `msx opps search <account_id> <search>` | Search open opportunities for an account |
 | `msx opps mine` | Get your associated opportunities (includes forecast comments) |
 | `msx opps user <user_id>` | Get opportunities for a specific user (includes forecast comments) |
-| `msx tasks` | List your recent tasks |
+| `msx tasks mine` | List your recent tasks (defaults to last 30 days) |
+| `msx tasks mine --after <date> --before <date>` | List your tasks in a date range (max 12 months) |
+| `msx tasks user <user_id>` | List tasks for a specific user (defaults to last 30 days) |
+| `msx tasks user <user_id> --after <date> --before <date>` | List tasks for a user in a date range |
 | `msx tasks create <title> <desc> <date> [opts]` | Create a task (see options below) |
 | `msx query <odata_query>` | Run a raw OData query |
 
@@ -84,8 +87,17 @@ msx opps search "b1c2d3e4-..." "Azure"
 # List my open opportunities
 msx opps mine
 
-# View my recent tasks
-msx tasks
+# View my recent tasks (last 30 days)
+msx tasks mine
+
+# View my tasks in a specific date range
+msx tasks mine --after 2026-01-01 --before 2026-03-31
+
+# View tasks for another user
+msx tasks user "a1b2c3d4-..."
+
+# View tasks for another user in a date range
+msx tasks user "a1b2c3d4-..." --after 2026-01-01 --before 2026-03-31
 
 # Create a task tied to an account
 msx tasks create "Follow up call" "Discuss renewal timeline" 2026-04-01 --category CustomerEngagement --account "b1c2d3e4-..."
