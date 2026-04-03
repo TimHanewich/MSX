@@ -152,12 +152,12 @@ namespace MSX
             }
         }
 
-        public async Task<JArray> GetTasksForUserAsync(string userId, DateTime? from = null, DateTime? to = null)
+        public async Task<JArray> GetTasksForUserAsync(string userId, DateTime? after = null, DateTime? before = null)
         {
-            DateTime effectiveFrom = from ?? DateTime.UtcNow.AddDays(-30);
-            string filter = $"_ownerid_value eq '{userId}' and scheduledstart ge {effectiveFrom:yyyy-MM-dd}";
-            if (to != null)
-                filter += $" and scheduledstart le {to.Value:yyyy-MM-dd}";
+            DateTime effectiveAfter = after ?? DateTime.UtcNow.AddDays(-30);
+            string filter = $"_ownerid_value eq '{userId}' and scheduledstart ge {effectiveAfter:yyyy-MM-dd}";
+            if (before != null)
+                filter += $" and scheduledstart le {before.Value:yyyy-MM-dd}";
 
             string url = URL_ROOT + $"tasks?$filter={filter}&$orderby=scheduledstart desc&$expand=regardingobjectid_account($select=name,accountid),regardingobjectid_opportunity($select=name,opportunityid,estimatedvalue)";
 
