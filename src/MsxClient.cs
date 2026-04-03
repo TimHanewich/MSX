@@ -154,8 +154,11 @@ namespace MSX
 
         public async Task<JArray> GetTasksForUserAsync(string userId, DateTime? after = null, DateTime? before = null)
         {
-            DateTime effectiveAfter = after ?? DateTime.UtcNow.AddDays(-30);
-            string filter = $"_ownerid_value eq '{userId}' and scheduledstart ge {effectiveAfter:yyyy-MM-dd}";
+            string filter = $"_ownerid_value eq '{userId}'";
+            if (after == null && before == null)
+                filter += $" and scheduledstart ge {DateTime.UtcNow.AddDays(-30):yyyy-MM-dd}"; //if they dont specify any time, just get last 30 days
+            if (after != null)
+                filter += $" and scheduledstart ge {after.Value:yyyy-MM-dd}";
             if (before != null)
                 filter += $" and scheduledstart le {before.Value:yyyy-MM-dd}";
 
