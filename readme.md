@@ -21,6 +21,7 @@ The cookie is stored at `%LocalAppData%\MSX\cookie.txt` (Windows) or `~/.local/s
 
 | Command | Description |
 |---|---|
+| `msx version` | Show version number |
 | `msx auth set <cookie>` | Save your authentication cookie |
 | `msx auth show` | Display the saved cookie |
 | `msx auth path` | Show the cookie file path |
@@ -37,7 +38,6 @@ The cookie is stored at `%LocalAppData%\MSX\cookie.txt` (Windows) or `~/.local/s
 | `msx tasks user <user_id>` | List tasks for a specific user (defaults to last 30 days) |
 | `msx tasks user <user_id> --after <date> --before <date>` | List tasks for a user in a date range |
 | `msx tasks create <title> <desc> <date> [opts]` | Create a task (see options below) |
-| `msx version` | Show version number |
 | `msx query <odata_query>` | Run a raw OData query |
 
 ## Task Creation Options

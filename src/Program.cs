@@ -73,6 +73,7 @@ namespace MSX
             Console.WriteLine("Usage: msx <command> [arguments]");
             Console.WriteLine();
             Console.WriteLine("Commands:");
+            Console.WriteLine("  version                                 Show version number");
             Console.WriteLine("  auth set <cookie>                       Save your MSX authentication cookie");
             Console.WriteLine("  auth clear                              Remove saved cookie");
             Console.WriteLine("  auth show                               Display the saved cookie");
@@ -90,7 +91,6 @@ namespace MSX
             Console.WriteLine("       [--account <id>]                     Tie task to an account");
             Console.WriteLine("       [--opportunity <id>]                 Tie task to an opportunity");
             Console.WriteLine("  query <odata_query>                     Run a raw OData query");
-            Console.WriteLine("  version                                 Show version number");
         }
 
         // ── Auth ──
