@@ -118,6 +118,105 @@ msx users "Jane Smith"
 msx query "contacts?\$top=5&\$select=fullname,emailaddress1"
 ```
 
+## Example Responses
+
+### `msx accounts`
+```json
+[
+  { "name": "CONTOSO LTD", "accountid": "b1c2d3e4-5678-90ab-cdef-1234567890ab" },
+  { "name": "CONTOSO FEDERAL", "accountid": "a9b8c7d6-5432-10fe-dcba-0987654321ab" }
+]
+```
+
+### `msx users`
+```json
+[
+  {
+    "fullname": "Jane Smith",
+    "title": "Solution Engineer",
+    "internalemailaddress": "jasmith@microsoft.com",
+    "msp_solutionarea": "Modern Work",
+    "msp_rolesummary": "SE",
+    "msp_salesdistrictname": "US - Central",
+    "msp_solutionareadetails": "Microsoft 365",
+    "msp_qualifier2": "SMC"
+  }
+]
+```
+
+### `msx opps search`
+```json
+[
+  {
+    "opportunityid": "b912f4aa-45c1-ee11-9f22-44d2a1c0f7b1",
+    "name": "AURELION GOV | Dept. of Sky Transit | Cloud Workflow Suite",
+    "description": "Modernizing aerial traffic request processing for the Sky Transit Authority",
+    "estimatedvalue": 187500.0
+  },
+  {
+    "opportunityid": "7f33c1d9-88b2-ee11-82c1-12f4b9e0a3c2",
+    "name": "NOVA MUNICIPAL | Office of Arcology Services | DataHub Automation",
+    "description": "Implementing automated data routing for vertical-city infrastructure",
+    "estimatedvalue": 62400.0
+  }
+]
+```
+
+### `msx opps mine` / `msx opps user`
+```json
+[
+  {
+    "opportunityid": "f91c2b77-aa12-ee11-9c44-55d2f8c1a9e3",
+    "name": "AURELION JUSTICE AUTHORITY – Platform Modernization Initiative",
+    "description": "Exploring a unified low‑code platform to streamline case workflows across the agency.",
+    "value": 86450.0,
+    "closeDate": "2026-08-27",
+    "account": {
+      "id": "1c7eab44-22d1-4f8b-9b11-8a0c4f77d9e1",
+      "name": "AURELION FEDERAL SERVICES"
+    },
+    "forecastComments": [
+      {
+        "userId": "{A1B2C3D4-1111-2222-3333-444455556666}",
+        "modifiedOn": "6/15/2023, 10:12:33 PM",
+        "comment": "Initial discussions with AJA leadership about adopting a platform-wide low‑code solution."
+      },
+      {
+        "userId": "{A1B2C3D4-1111-2222-3333-444455556666}",
+        "modifiedOn": "8/23/2024, 5:21:36 PM",
+        "comment": "Customer noncommittal on timing. Requested clarity on whether purchase aligns with next fiscal cycle."
+      }
+    ]
+  }
+]
+```
+
+### `msx tasks mine` / `msx tasks user`
+```json
+[
+  {
+    "subject": "Aurelion Digital Forum – AI Agents Spotlight",
+    "description": "Featured guest on the ADF's tech broadcast, presenting an overview of autonomous agent models.",
+    "scheduledstart": "2025-10-21T15:00:00Z",
+    "regarding": {
+      "type": "account",
+      "name": "AURELION CENTRAL ADMINISTRATION",
+      "id": "9a22c1f3-55d1-4b8a-9c11-1f77a8c4e2b9"
+    }
+  },
+  {
+    "subject": "Technical Architecture Review with SolaraGrid",
+    "description": "Walked through solution architecture with the SolaraGrid engineering team.",
+    "scheduledstart": "2025-10-20T07:00:00Z",
+    "regarding": {
+      "type": "opportunity",
+      "name": "AURELION | SOLARAGRID | AI | Intelligent Support & Protocol Navigator",
+      "id": "b2d4e8f1-6a11-4c0d-9f77-2c1e5b9d7a44"
+    }
+  }
+]
+```
+
 ## Building
 ```
 dotnet publish MSX.csproj -c Release --self-contained true
