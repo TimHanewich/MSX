@@ -77,8 +77,8 @@ namespace MSX
             Console.WriteLine("  opps search <account_id> <search>       Search opportunities for an account");
             Console.WriteLine("  opps mine                               Get your associated opportunities");
             Console.WriteLine("  opps user <user_id>                     Get opportunities for a specific user");
-            Console.WriteLine("  tasks mine                              Get your recent tasks");
-            Console.WriteLine("  tasks user <user_id>                    Get tasks for a specific user");
+            Console.WriteLine("  tasks mine [--from <date>] [--to <date>] Get your recent tasks");
+            Console.WriteLine("  tasks user <user_id> [--from/--to]      Get tasks for a specific user");
             Console.WriteLine("  tasks create <title> <desc> <date>      Create a task (date: yyyy-MM-dd)");
             Console.WriteLine("       [--account <id>]                     Tie task to an account");
             Console.WriteLine("       [--opportunity <id>]                 Tie task to an opportunity");
@@ -236,12 +236,34 @@ namespace MSX
 
         // ── Tasks ──
 
+        private static (DateTime? from, DateTime? to) ParseDateFlags(string[] args, int startIndex)
+        {
+            DateTime? from = null;
+            DateTime? to = null;
+            for (int i = startIndex; i < args.Length - 1; i++)
+            {
+                if (args[i] == "--from")
+                {
+                    if (!DateTime.TryParse(args[++i], out DateTime f))
+                        throw new Exception($"Invalid --from date: {args[i]}. Use yyyy-MM-dd.");
+                    from = f;
+                }
+                else if (args[i] == "--to")
+                {
+                    if (!DateTime.TryParse(args[++i], out DateTime t))
+                        throw new Exception($"Invalid --to date: {args[i]}. Use yyyy-MM-dd.");
+                    to = t;
+                }
+            }
+            return (from, to);
+        }
+
         private static async Task<int> HandleTasks(string[] args)
         {
             if (args.Length < 2)
             {
-                Console.Error.WriteLine("Usage: msx tasks mine");
-                Console.Error.WriteLine("       msx tasks user <user_id>");
+                Console.Error.WriteLine("Usage: msx tasks mine [--from <date>] [--to <date>]");
+                Console.Error.WriteLine("       msx tasks user <user_id> [--from <date>] [--to <date>]");
                 Console.Error.WriteLine("       msx tasks create <title> <description> <date> [--category <category>] [--account <id>] [--opportunity <id>]");
                 return 1;
             }
@@ -252,20 +274,26 @@ namespace MSX
             switch (sub)
             {
                 case "mine":
+                {
+                    var (from, to) = ParseDateFlags(args, 2);
                     string myId = await client.WhoAmIAsync();
-                    JArray myTasks = await client.GetTasksForUserAsync(myId);
+                    JArray myTasks = await client.GetTasksForUserAsync(myId, from, to);
                     Console.WriteLine(myTasks.ToString(Formatting.Indented));
                     return 0;
+                }
 
                 case "user":
+                {
                     if (args.Length < 3)
                     {
-                        Console.Error.WriteLine("Usage: msx tasks user <user_id>");
+                        Console.Error.WriteLine("Usage: msx tasks user <user_id> [--from <date>] [--to <date>]");
                         return 1;
                     }
-                    JArray userTasks = await client.GetTasksForUserAsync(args[2]);
+                    var (from, to) = ParseDateFlags(args, 3);
+                    JArray userTasks = await client.GetTasksForUserAsync(args[2], from, to);
                     Console.WriteLine(userTasks.ToString(Formatting.Indented));
                     return 0;
+                }
 
                 case "create":
                     return await HandleTaskCreate(args);
