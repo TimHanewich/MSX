@@ -77,7 +77,8 @@ namespace MSX
             Console.WriteLine("  opps search <account_id> <search>       Search opportunities for an account");
             Console.WriteLine("  opps mine                               Get your associated opportunities");
             Console.WriteLine("  opps user <user_id>                     Get opportunities for a specific user");
-            Console.WriteLine("  tasks                                   Get your recent tasks");
+            Console.WriteLine("  tasks mine                              Get your recent tasks");
+            Console.WriteLine("  tasks user <user_id>                    Get tasks for a specific user");
             Console.WriteLine("  tasks create <title> <desc> <date>      Create a task (date: yyyy-MM-dd)");
             Console.WriteLine("       [--account <id>]                     Tie task to an account");
             Console.WriteLine("       [--opportunity <id>]                 Tie task to an opportunity");
@@ -237,15 +238,46 @@ namespace MSX
 
         private static async Task<int> HandleTasks(string[] args)
         {
-            // No subcommand = list my tasks
-            if (args.Length < 2 || args[1].ToLowerInvariant() != "create")
+            if (args.Length < 2)
             {
-                var client = GetClient();
-                JArray tasks = await client.GetMyRecentTasksAsync();
-                Console.WriteLine(tasks.ToString(Formatting.Indented));
-                return 0;
+                Console.Error.WriteLine("Usage: msx tasks mine");
+                Console.Error.WriteLine("       msx tasks user <user_id>");
+                Console.Error.WriteLine("       msx tasks create <title> <description> <date> [--category <category>] [--account <id>] [--opportunity <id>]");
+                return 1;
             }
 
+            string sub = args[1].ToLowerInvariant();
+            var client = GetClient();
+
+            switch (sub)
+            {
+                case "mine":
+                    string myId = await client.WhoAmIAsync();
+                    JArray myTasks = await client.GetTasksForUserAsync(myId);
+                    Console.WriteLine(myTasks.ToString(Formatting.Indented));
+                    return 0;
+
+                case "user":
+                    if (args.Length < 3)
+                    {
+                        Console.Error.WriteLine("Usage: msx tasks user <user_id>");
+                        return 1;
+                    }
+                    JArray userTasks = await client.GetTasksForUserAsync(args[2]);
+                    Console.WriteLine(userTasks.ToString(Formatting.Indented));
+                    return 0;
+
+                case "create":
+                    return await HandleTaskCreate(args);
+
+                default:
+                    Console.Error.WriteLine("Unknown tasks subcommand. Use: mine, user, create");
+                    return 1;
+            }
+        }
+
+        private static async Task<int> HandleTaskCreate(string[] args)
+        {
             // msx tasks create <title> <description> <date> [--category <category>] [--account <id>] [--opportunity <id>]
             if (args.Length < 5)
             {
@@ -283,8 +315,8 @@ namespace MSX
                 }
             }
 
-            var c = GetClient();
-            await c.CreateTaskAsync(title, description, date, category, accountId, opportunityId);
+            var client = GetClient();
+            await client.CreateTaskAsync(title, description, date, category, accountId, opportunityId);
             Console.WriteLine("Task created.");
             return 0;
         }

@@ -152,9 +152,8 @@ namespace MSX
             }
         }
 
-        public async Task<JArray> GetMyRecentTasksAsync()
+        public async Task<JArray> GetTasksForUserAsync(string userId)
         {
-            string userId = await WhoAmIAsync();
             string url = URL_ROOT + $"tasks?$filter= _ownerid_value eq '{userId}'&$top=150&$orderby=scheduledstart desc&$expand=regardingobjectid_account($select=name,accountid),regardingobjectid_opportunity($select=name,opportunityid)";
 
             var resp = await GetAsync(url);
