@@ -25,6 +25,7 @@ The cookie is stored at `%LocalAppData%\MSX\cookie.txt` (Windows) or `~/.local/s
 | `msx auth show` | Display the saved cookie |
 | `msx auth path` | Show the cookie file path |
 | `msx auth clear` | Remove the saved cookie |
+| `msx auth check` | Check if a cookie is saved |
 | `msx whoami` | Get your system user GUID |
 | `msx users <name>` | Search users by name |
 | `msx accounts <search>` | Search accounts by name |

@@ -71,6 +71,7 @@ namespace MSX
             Console.WriteLine("  auth clear                              Remove saved cookie");
             Console.WriteLine("  auth show                               Display the saved cookie");
             Console.WriteLine("  auth path                               Show cookie file path");
+            Console.WriteLine("  auth check                              Check if a cookie is saved");
             Console.WriteLine("  whoami                                  Get your system user ID");
             Console.WriteLine("  users <name>                            Search users by name");
             Console.WriteLine("  accounts <search>                       Search accounts by name");
@@ -129,8 +130,17 @@ namespace MSX
                     Console.WriteLine(CookiePath);
                     return 0;
 
+                case "check":
+                    if (File.Exists(CookiePath) && !string.IsNullOrWhiteSpace(File.ReadAllText(CookiePath)))
+                    {
+                        Console.WriteLine("Cookie is set.");
+                        return 0;
+                    }
+                    Console.Error.WriteLine("No cookie saved. Run: msx auth set <cookie>");
+                    return 1;
+
                 default:
-                    Console.Error.WriteLine("Usage: msx auth set <cookie> | msx auth clear | msx auth show");
+                    Console.Error.WriteLine("Usage: msx auth set <cookie> | msx auth clear | msx auth show | msx auth check");
                     return 1;
             }
         }
