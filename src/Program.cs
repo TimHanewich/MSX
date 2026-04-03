@@ -45,6 +45,12 @@ namespace MSX
                     case "-h":
                         PrintUsage();
                         return 0;
+                    case "version":
+                    case "--version":
+                    case "-v":
+                        Console.WriteLine(typeof(Program).Assembly.GetName().Version?.ToString(3) ?? "unknown");
+                        Console.WriteLine("Get the latest version: https://github.com/TimHanewich/MSX");
+                        return 0;
                     default:
                         Console.Error.WriteLine($"Unknown command: {command}");
                         PrintUsage();
@@ -84,6 +90,7 @@ namespace MSX
             Console.WriteLine("       [--account <id>]                     Tie task to an account");
             Console.WriteLine("       [--opportunity <id>]                 Tie task to an opportunity");
             Console.WriteLine("  query <odata_query>                     Run a raw OData query");
+            Console.WriteLine("  version                                 Show version number");
         }
 
         // ── Auth ──
