@@ -179,6 +179,13 @@ namespace MSX
                     ["scheduledstart"] = task["scheduledstart"]
                 };
 
+                var categoryToken = task["msp_taskcategory"];
+                if (categoryToken != null && categoryToken.Type != JTokenType.Null
+                    && Enum.IsDefined(typeof(TaskCategory), categoryToken.Value<int>()))
+                {
+                    summary["category"] = ((TaskCategory)categoryToken.Value<int>()).ToString();
+                }
+
                 JObject? account = task["regardingobjectid_account"] as JObject;
                 JObject? opportunity = task["regardingobjectid_opportunity"] as JObject;
 
