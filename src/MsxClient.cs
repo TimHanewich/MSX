@@ -159,7 +159,8 @@ namespace MSX
             if (to != null)
                 filter += $" and scheduledstart le {to.Value:yyyy-MM-dd}";
 
-            string url = URL_ROOT + $"tasks?$filter={filter}&$orderby=scheduledstart desc&$expand=regardingobjectid_account($select=name,accountid),regardingobjectid_opportunity($select=name,opportunityid)";
+            string url = URL_ROOT + $"tasks?$filter={filter}&$orderby=scheduledstart desc&$expand=regardingobjectid_account($select=name,accountid),regardingobjectid_opportunity($select=name,opportunityid,estimatedvalue)";
+            Console.WriteLine(url);
 
             var resp = await GetAsync(url);
             string content = await resp.Content.ReadAsStringAsync();
@@ -197,7 +198,8 @@ namespace MSX
                     {
                         ["type"] = "opportunity",
                         ["name"] = opportunity["name"],
-                        ["id"] = opportunity["opportunityid"]
+                        ["id"] = opportunity["opportunityid"],
+                        ["value"] = opportunity["estimatedvalue"]
                     };
                 }
 
