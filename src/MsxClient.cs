@@ -154,13 +154,12 @@ namespace MSX
 
         public async Task<JArray> GetTasksForUserAsync(string userId, DateTime? from = null, DateTime? to = null)
         {
-            string filter = $"_ownerid_value eq '{userId}'";
-            if (from != null)
-                filter += $" and scheduledstart ge {from.Value:yyyy-MM-dd}";
+            DateTime effectiveFrom = from ?? DateTime.UtcNow.AddDays(-30);
+            string filter = $"_ownerid_value eq '{userId}' and scheduledstart ge {effectiveFrom:yyyy-MM-dd}";
             if (to != null)
                 filter += $" and scheduledstart le {to.Value:yyyy-MM-dd}";
 
-            string url = URL_ROOT + $"tasks?$filter={filter}&$top=150&$orderby=scheduledstart desc&$expand=regardingobjectid_account($select=name,accountid),regardingobjectid_opportunity($select=name,opportunityid)";
+            string url = URL_ROOT + $"tasks?$filter={filter}&$orderby=scheduledstart desc&$expand=regardingobjectid_account($select=name,accountid),regardingobjectid_opportunity($select=name,opportunityid)";
 
             var resp = await GetAsync(url);
             string content = await resp.Content.ReadAsStringAsync();
