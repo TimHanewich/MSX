@@ -77,8 +77,8 @@ namespace MSX
             Console.WriteLine("  opps search <account_id> <search>       Search opportunities for an account");
             Console.WriteLine("  opps mine                               Get your associated opportunities");
             Console.WriteLine("  opps user <user_id>                     Get opportunities for a specific user");
-            Console.WriteLine("  tasks mine [--from <date>] [--to <date>] Get your recent tasks");
-            Console.WriteLine("  tasks user <user_id> [--from/--to]      Get tasks for a specific user");
+            Console.WriteLine("  tasks mine [--after <date>] [--before <date>]  Get your recent tasks");
+            Console.WriteLine("  tasks user <user_id> [--after/--before]  Get tasks for a specific user");
             Console.WriteLine("  tasks create <title> <desc> <date>      Create a task (date: yyyy-MM-dd)");
             Console.WriteLine("       [--account <id>]                     Tie task to an account");
             Console.WriteLine("       [--opportunity <id>]                 Tie task to an opportunity");
@@ -238,32 +238,32 @@ namespace MSX
 
         private static (DateTime? from, DateTime? to) ParseDateFlags(string[] args, int startIndex)
         {
-            DateTime? from = null;
-            DateTime? to = null;
+            DateTime? after = null;
+            DateTime? before = null;
             for (int i = startIndex; i < args.Length - 1; i++)
             {
-                if (args[i] == "--from")
+                if (args[i] == "--after")
                 {
-                    if (!DateTime.TryParse(args[++i], out DateTime f))
-                        throw new Exception($"Invalid --from date: {args[i]}. Use yyyy-MM-dd.");
-                    from = f;
+                    if (!DateTime.TryParse(args[++i], out DateTime a))
+                        throw new Exception($"Invalid --after date: {args[i]}. Use yyyy-MM-dd.");
+                    after = a;
                 }
-                else if (args[i] == "--to")
+                else if (args[i] == "--before")
                 {
-                    if (!DateTime.TryParse(args[++i], out DateTime t))
-                        throw new Exception($"Invalid --to date: {args[i]}. Use yyyy-MM-dd.");
-                    to = t;
+                    if (!DateTime.TryParse(args[++i], out DateTime b))
+                        throw new Exception($"Invalid --before date: {args[i]}. Use yyyy-MM-dd.");
+                    before = b;
                 }
             }
-            return (from, to);
+            return (after, before);
         }
 
         private static async Task<int> HandleTasks(string[] args)
         {
             if (args.Length < 2)
             {
-                Console.Error.WriteLine("Usage: msx tasks mine [--from <date>] [--to <date>]");
-                Console.Error.WriteLine("       msx tasks user <user_id> [--from <date>] [--to <date>]");
+                Console.Error.WriteLine("Usage: msx tasks mine [--after <date>] [--before <date>]");
+                Console.Error.WriteLine("       msx tasks user <user_id> [--after <date>] [--before <date>]");
                 Console.Error.WriteLine("       msx tasks create <title> <description> <date> [--category <category>] [--account <id>] [--opportunity <id>]");
                 return 1;
             }
@@ -286,7 +286,7 @@ namespace MSX
                 {
                     if (args.Length < 3)
                     {
-                        Console.Error.WriteLine("Usage: msx tasks user <user_id> [--from <date>] [--to <date>]");
+                        Console.Error.WriteLine("Usage: msx tasks user <user_id> [--after <date>] [--before <date>]");
                         return 1;
                     }
                     var (from, to) = ParseDateFlags(args, 3);
