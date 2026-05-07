@@ -168,7 +168,7 @@ namespace MSX
                 filter += $" and scheduledstart ge {after.Value:yyyy-MM-dd} and scheduledstart le {before.Value:yyyy-MM-dd}";
             }
 
-            string url = URL_ROOT + $"tasks?$filter={filter}&$orderby=scheduledstart desc&$expand=regardingobjectid_account($select=name,accountid),regardingobjectid_opportunity($select=name,opportunityid,estimatedvalue)";
+            string url = URL_ROOT + $"tasks?$filter={filter}&$orderby=scheduledstart desc&$expand=regardingobjectid_account($select=name,accountid),regardingobjectid_opportunity($select=name,opportunityid,estimatedvalue,statecode)";
 
             var resp = await GetAsync(url);
             string content = await resp.Content.ReadAsStringAsync();
@@ -209,6 +209,15 @@ namespace MSX
                 }
                 else if (opportunity != null && opportunity.HasValues)
                 {
+                    string? status = opportunity["statecode"]?.Type == JTokenType.Null ? null
+                        : opportunity["statecode"]!.Value<int>() switch
+                        {
+                            0 => "open",
+                            1 => "won",
+                            2 => "lost",
+                            _ => null
+                        };
+
                     summary["regarding"] = new JObject
                     {
                         ["type"] = "opportunity",
@@ -216,7 +225,8 @@ namespace MSX
                         ["id"] = opportunity["opportunityid"],
                         ["value"] = opportunity["estimatedvalue"]?.Type == JTokenType.Null || opportunity["estimatedvalue"] == null
                             ? null
-                            : (JToken)(int)Math.Round(opportunity["estimatedvalue"]!.Value<double>())
+                            : (JToken)(int)Math.Round(opportunity["estimatedvalue"]!.Value<double>()),
+                        ["status"] = status
                     };
                 }
 
