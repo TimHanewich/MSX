@@ -8,6 +8,7 @@ Download `msx.exe` to begin using this tool below:
 |[0.1.0](https://github.com/TimHanewich/MSX/releases/download/0.1.0/MSX.exe)|First release|
 |[0.2.0](https://github.com/TimHanewich/MSX/releases/download/0.2.0/MSX.exe)|Can specify a *Task Category* when creating new tasks and capturing *forecast comments* when pulling down opportunities.|
 |[0.3.0](https://github.com/TimHanewich/MSX/releases/download/0.3.0/MSX.exe)|Pull tasks for any user, specify begin and end dates, tasks now include opportunity value and task category, additional auth commands, version command|
+|[0.4.0](https://github.com/TimHanewich/MSX/releases/download/0.4.0/MSX.exe)|Tasks now include opportunity status (open, won, lost)|
 
 After downloading, you can run `MSX.exe` from anywhere it lives on your computer! Or, you place it in a long-lived permanent location like `C:\Users\USER\AppData\Local\MSX` and add that directory to your PATH variable to call `msx` from anywhere.
 
